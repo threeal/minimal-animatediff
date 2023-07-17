@@ -1,0 +1,4 @@
+name: minimal-animatediff
+dependencies:
+  - python=3.10
+  - pip
