@@ -1,9 +1,8 @@
-#!/usr/bin/env python3
-
 import argparse
+from modules.stable_diffusion import check_stable_diffusion
 
 def main(args):
-    pass
+    check_stable_diffusion('models/stable_diffusion')
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
