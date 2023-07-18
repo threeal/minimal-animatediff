@@ -8,25 +8,34 @@ from deps.AnimateDiff.animatediff.models.unet import UNet3DConditionModel
 __snapshot_dir = None
 
 
-def init_snapshot(path: str):
+def check_snapshot():
     global __snapshot_dir
-    __snapshot_dir = path
+    print('Checking Stable Diffusion snapshot...')
+    __snapshot_dir = 'models/stable_diffusion'
     snapshot_download(repo_id='runwayml/stable-diffusion-v1-5', local_dir=__snapshot_dir)
 
 
 def load_tokenizer():
+    if __snapshot_dir is None: check_snapshot()
+    print('Loading tokenizer pretrained weights...')
     return CLIPTokenizer.from_pretrained(__snapshot_dir, subfolder='tokenizer')
 
 
 def load_text_encoder():
+    if __snapshot_dir is None: check_snapshot()
+    print('Loading text encoder pretrained weights...')
     return CLIPTextModel.from_pretrained(__snapshot_dir, subfolder='text_encoder')
 
 
 def load_vae():
+    if __snapshot_dir is None: check_snapshot()
+    print('Loading vae pretrained weights...')
     return AutoencoderKL.from_pretrained(__snapshot_dir, subfolder='vae')
 
 
 def load_unet():
+    if __snapshot_dir is None: check_snapshot()
+    print('Loading unet pretrained weights...')
     unet = UNet3DConditionModel.from_pretrained_2d(__snapshot_dir, subfolder="unet", unet_additional_kwargs={
         'unet_use_cross_frame_attention': False,
         'unet_use_temporal_attention': False,
