@@ -1,5 +1,5 @@
 import argparse
-from modules.pipeline import create_animation_pipeline
+from modules.animation_pipeline import create_animation_pipeline
 
 
 def main(args):
