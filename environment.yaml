@@ -14,5 +14,6 @@ dependencies:
     - einops
     - gdown
     - huggingface_hub
+    - safetensors
     - transformers==4.25.1
     - triton
