@@ -1,2 +1,6 @@
 .*
 !.git*
+
+__pycache__/
+models/
+samples/
