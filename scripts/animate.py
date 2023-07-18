@@ -15,6 +15,9 @@ def main(args):
     print('Loading variable auto encoder...')
     tokenizer = sd.load_vae()
 
+    print('Loading U-Net...')
+    unet = sd.load_unet()
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
