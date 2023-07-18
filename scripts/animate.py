@@ -1,12 +1,10 @@
 import argparse
-import modules.stable_diffusion as sd
+from modules.pipeline import create_animation_pipeline
 
 
 def main(args):
-    tokenizer = sd.load_tokenizer()
-    tokenizer = sd.load_text_encoder()
-    tokenizer = sd.load_vae()
-    unet = sd.load_unet()
+    pipeline = create_animation_pipeline()
+    pipeline.to("cuda")
 
 
 if __name__ == '__main__':
