@@ -4,7 +4,6 @@ from modules.pipeline import create_animation_pipeline
 
 def main(args):
     pipeline = create_animation_pipeline()
-    pipeline.to("cuda")
 
 
 if __name__ == '__main__':
