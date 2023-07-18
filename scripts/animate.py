@@ -1,8 +1,9 @@
 import argparse
-from modules.stable_diffusion import init_stable_diffusion_dir
+import modules.stable_diffusion as sd
 
 def main(args):
-    init_stable_diffusion_dir('models/stable_diffusion')
+    print('Initializing Stable Diffusion snapshot...')
+    sd.init_snapshot('models/stable_diffusion')
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
