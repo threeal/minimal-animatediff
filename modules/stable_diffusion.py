@@ -13,7 +13,19 @@ def check_snapshot():
     global __snapshot_dir
     print('Checking Stable Diffusion snapshot...')
     __snapshot_dir = get_model_path('stable_diffusion')
-    snapshot_download(repo_id='runwayml/stable-diffusion-v1-5', local_dir=__snapshot_dir)
+    snapshot_download(
+        repo_id='runwayml/stable-diffusion-v1-5',
+        local_dir=__snapshot_dir,
+        allow_patterns=[
+            'text_encoder/*.json',
+            'text_encoder/*model.bin',
+            'tokenizer/*',
+            'unet/*.json',
+            'unet/*model.bin',
+            'vae/*.json',
+            'vae/*model.bin',
+        ]
+    )
 
 
 def load_tokenizer():
