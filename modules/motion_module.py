@@ -2,7 +2,9 @@ import gdown
 import os
 import torch
 
-__state_dict_file = 'models/mm_sd_v15.ckpt'
+from .utils import get_model_path
+
+__state_dict_file = get_model_path('mm_sd_v15.ckpt')
 
 
 def load_state_dict():
@@ -14,4 +16,4 @@ def load_state_dict():
             exit('Failed to download motion module!')
 
     print('Loading motion module state dictionary...')
-    return torch.load('models/mm_sd_v15.ckpt', map_location='cpu')
+    return torch.load(__state_dict_file, map_location='cpu')
