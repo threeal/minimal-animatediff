@@ -4,6 +4,7 @@ from huggingface_hub import snapshot_download
 from transformers import CLIPTextModel, CLIPTokenizer
 
 from deps.AnimateDiff.animatediff.models.unet import UNet3DConditionModel
+from .utils import get_model_path
 
 __snapshot_dir = None
 
@@ -11,7 +12,7 @@ __snapshot_dir = None
 def check_snapshot():
     global __snapshot_dir
     print('Checking Stable Diffusion snapshot...')
-    __snapshot_dir = 'models/stable_diffusion'
+    __snapshot_dir = get_model_path('stable_diffusion')
     snapshot_download(repo_id='runwayml/stable-diffusion-v1-5', local_dir=__snapshot_dir)
 
 

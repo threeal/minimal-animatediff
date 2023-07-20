@@ -2,7 +2,9 @@ import os
 from safetensors import safe_open
 import urllib.request
 
-__model_file = 'models/toonyou_beta3.safetensors'
+from .utils import get_model_path
+
+__model_file = get_model_path('toonyou_beta3.safetensors')
 
 
 def load_model():
