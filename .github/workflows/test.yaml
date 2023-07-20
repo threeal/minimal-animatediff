@@ -1,0 +1,25 @@
+name: test
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  project:
+    runs-on: [self-hosted, linux, x64]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.5.3
+        with:
+          submodules: true
+
+      - name: Run inference
+        shell: fish {0}
+        run: |
+          conda activate minimal-animatediff
+          python3 -m scripts.animate
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          path: samples/
