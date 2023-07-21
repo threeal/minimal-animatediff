@@ -2,8 +2,9 @@ name: test
 on:
   workflow_dispatch:
   pull_request:
+    branches: ['*', '!latest']
   push:
-    branches: [main]
+    branches: [latest, main]
 jobs:
   project:
     runs-on: [self-hosted, linux, x64]
