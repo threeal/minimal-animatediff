@@ -1,3 +1,5 @@
+import sys
+
 from diffusers import DDIMScheduler
 
 from deps.AnimateDiff.animatediff.pipelines.pipeline_animation import AnimationPipeline
@@ -29,7 +31,7 @@ def create_animation_pipeline():
     print('Loading motion module to the animation pipeline...')
     _, unexpected = pipeline.unet.load_state_dict(mm.load_state_dict(), strict=False)
     if len(unexpected) > 0:
-        exit('Failed to load motion module to the animation pipeline!')
+        sys.exit('Failed to load motion module to the animation pipeline!')
 
     print('Loading diffusion model to the animation pipeline...')
     state_dict = dm.load_model()
