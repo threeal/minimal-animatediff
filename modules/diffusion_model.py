@@ -1,8 +1,9 @@
 import os
-from safetensors import safe_open
 import urllib.request
 
-from .utils import get_model_path
+from safetensors import safe_open
+
+from modules.utils import get_model_path
 
 __model_file = get_model_path('toonyou_beta3.safetensors')
 
@@ -19,8 +20,8 @@ def load_model():
     print('Loading diffusion model state dictionary...')
 
     state_dict = {}
-    with safe_open(__model_file, framework="pt", device="cpu") as f:
-        for key in f.keys():
-            state_dict[key] = f.get_tensor(key)
+    with safe_open(__model_file, framework="pt", device="cpu") as model:
+        for key in model.keys():
+            state_dict[key] = model.get_tensor(key)
 
     return state_dict

@@ -1,18 +1,17 @@
-import argparse
-from modules.animation_pipeline import create_animation_pipeline
 import torch
 
 from deps.AnimateDiff.animatediff.utils.util import save_videos_grid
+from modules.animation_pipeline import create_animation_pipeline
 
 
-def main(args):
+def main():
     pipeline = create_animation_pipeline()
 
     torch.manual_seed(16372571278361863751)
 
     print('Sampling prompt...')
     sample = pipeline(
-        'best quality, masterpiece, 1girl, cloudy sky, dandelion, contrapposto, alternate hairstyle,',
+        'best quality, masterpiece, 1girl, cloudy sky, dandelion, alternate hairstyle,',
         negative_prompt     = '',
         num_inference_steps = 25,
         guidance_scale      = 7.5,
@@ -26,7 +25,4 @@ def main(args):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-
-    args = parser.parse_args()
-    main(args)
+    main()
