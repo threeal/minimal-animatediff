@@ -1,5 +1,6 @@
 .*
 !.git*
+!.pylintrc
 
 __pycache__/
 flagged/
