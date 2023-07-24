@@ -1,8 +1,8 @@
 import gradio
-from modules.animation_pipeline import create_animation_pipeline
 import torch
 
 from deps.AnimateDiff.animatediff.utils.util import save_videos_grid
+from modules.animation_pipeline import create_animation_pipeline
 
 
 if __name__ == '__main__':
@@ -19,7 +19,7 @@ if __name__ == '__main__':
     ):
         torch.manual_seed(16372571278361863751)
 
-        def update(i, t, latents):
+        def update(i, _, __):
             progress(i / float(steps + 1), desc='Sampling')
 
         progress(0, desc='Sampling')
