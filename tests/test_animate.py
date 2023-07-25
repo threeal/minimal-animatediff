@@ -1,15 +1,20 @@
+import pytest
 import torch
 
 from deps.AnimateDiff.animatediff.utils.util import save_videos_grid
 from modules.animation_pipeline import create_animation_pipeline
 
 
-def test_animate():
+@pytest.mark.dependency()
+def test_create_animation_pipeline():
+    global pipeline
     pipeline = create_animation_pipeline()
 
-    torch.manual_seed(16372571278361863751)
 
-    print('Sampling prompt...')
+@pytest.mark.dependency(depends=['test_create_animation_pipeline'])
+def test_run_animation_pipeline():
+    global pipeline, sample
+    torch.manual_seed(16372571278361863751)
     sample = pipeline(
         'best quality, masterpiece, 1girl, cloudy sky, dandelion, alternate hairstyle,',
         negative_prompt     = '',
@@ -20,5 +25,8 @@ def test_animate():
         video_length        = 16,
     ).videos
 
-    print('Saving the result...')
+
+@pytest.mark.dependency(depends=['test_run_animation_pipeline'])
+def test_save_animation_pipeline():
+    global sample
     save_videos_grid(sample, 'samples/sample.gif')
