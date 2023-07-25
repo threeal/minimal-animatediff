@@ -14,14 +14,8 @@ jobs:
         with:
           submodules: true
 
-      - name: Check lint
-        shell: fish {0}
-        run: |
-          conda activate minimal-animatediff
-          python3 -m pylint modules scripts tests
-
       - name: Run tests
         shell: fish {0}
         run: |
           conda activate minimal-animatediff
-          python3 -m pytest -v -s --durations=0
+          python3 -m pytest --pylint -v -s --durations=0

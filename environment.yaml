@@ -19,6 +19,7 @@ dependencies:
     - pylint
     - pytest
     - pytest-dependency
+    - pytest-pylint
     - safetensors
     - transformers==4.25.1
     - triton
