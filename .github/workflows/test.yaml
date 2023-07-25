@@ -24,4 +24,4 @@ jobs:
         shell: fish {0}
         run: |
           conda activate minimal-animatediff
-          python3 -m pytest -s
+          python3 -m pytest -v -s --durations=0
