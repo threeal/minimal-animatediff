@@ -16,6 +16,7 @@ dependencies:
     - huggingface_hub
     - imageio==2.27.0
     - pylint
+    - pytest
     - safetensors
     - transformers==4.25.1
     - triton
