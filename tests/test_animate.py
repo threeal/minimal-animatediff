@@ -4,7 +4,7 @@ from deps.AnimateDiff.animatediff.utils.util import save_videos_grid
 from modules.animation_pipeline import create_animation_pipeline
 
 
-def main():
+def test_animate():
     pipeline = create_animation_pipeline()
 
     torch.manual_seed(16372571278361863751)
@@ -22,7 +22,3 @@ def main():
 
     print('Saving the result...')
     save_videos_grid(sample, 'samples/sample.gif')
-
-
-if __name__ == '__main__':
-    main()
