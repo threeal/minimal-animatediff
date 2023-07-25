@@ -6,7 +6,7 @@ on:
   push:
     branches: [latest, main]
 jobs:
-  project:
+  lib:
     runs-on: [self-hosted, linux, x64]
     steps:
       - name: Checkout
@@ -14,19 +14,8 @@ jobs:
         with:
           submodules: true
 
-      - name: Lint check
+      - name: Run tests
         shell: fish {0}
         run: |
           conda activate minimal-animatediff
-          python3 -m pylint modules scripts
-
-      - name: Run inference
-        shell: fish {0}
-        run: |
-          conda activate minimal-animatediff
-          python3 -m scripts.animate
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3.1.2
-        with:
-          path: samples/
+          python3 -m pytest --pylint -v -s --durations=0
