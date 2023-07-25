@@ -7,18 +7,23 @@ from modules.animation_pipeline import create_animation_pipeline
 
 hasher = FileHash('md5')
 
+PIPELINE = None
+SAMPLE = None
+
 
 @pytest.mark.dependency()
 def test_create_animation_pipeline():
-    global pipeline
-    pipeline = create_animation_pipeline()
+    global PIPELINE
+    PIPELINE = create_animation_pipeline()
 
 
 @pytest.mark.dependency(depends=['test_create_animation_pipeline'])
 def test_run_animation_pipeline():
-    global pipeline, sample
+    global SAMPLE
+    assert PIPELINE is not None
+
     torch.manual_seed(16372571278361863751)
-    sample = pipeline(
+    SAMPLE = PIPELINE(
         'best quality, masterpiece, 1girl, cloudy sky, dandelion, alternate hairstyle,',
         negative_prompt     = '',
         num_inference_steps = 25,
@@ -31,8 +36,8 @@ def test_run_animation_pipeline():
 
 @pytest.mark.dependency(depends=['test_run_animation_pipeline'])
 def test_save_animation():
-    global sample
-    save_videos_grid(sample, 'samples/sample.gif')
+    assert SAMPLE is not None
+    save_videos_grid(SAMPLE, 'samples/sample.gif')
 
 
 @pytest.mark.dependency(depends=['test_save_animation'])

@@ -18,7 +18,7 @@ jobs:
         shell: fish {0}
         run: |
           conda activate minimal-animatediff
-          python3 -m pylint modules scripts
+          python3 -m pylint modules scripts tests
 
       - name: Run tests
         shell: fish {0}
