@@ -12,6 +12,7 @@ dependencies:
   - pip:
     - diffusers[torch]==0.11.1
     - einops
+    - filehash
     - gdown
     - huggingface_hub
     - imageio==2.27.0
