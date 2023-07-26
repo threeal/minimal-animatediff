@@ -12,7 +12,7 @@ from .stable_diffusion import StableDiffusionSnapshot
 
 
 def create_animation_pipeline():
-    sd_path = utils.get_model_path('stable_diffusion')
+    sd_path = utils.get_model_path("stable_diffusion")
     sd_snapshot = StableDiffusionSnapshot(sd_path)
 
     pipeline = AnimationPipeline(
@@ -20,24 +20,26 @@ def create_animation_pipeline():
         tokenizer=sd_snapshot.load_tokenizer(),
         vae=sd_snapshot.load_vae(),
         unet=sd_snapshot.load_unet(),
-        scheduler=DDIMScheduler(**{
-            'num_train_timesteps': 1000,
-            'beta_start': 0.00085,
-            'beta_end': 0.012,
-            'beta_schedule': 'linear',
-            'steps_offset': 1,
-            'clip_sample': False
-        }),
+        scheduler=DDIMScheduler(
+            **{
+                "num_train_timesteps": 1000,
+                "beta_start": 0.00085,
+                "beta_end": 0.012,
+                "beta_schedule": "linear",
+                "steps_offset": 1,
+                "clip_sample": False,
+            }
+        ),
     )
 
     pipeline.to("cuda")
 
-    print('Loading motion module to the animation pipeline...')
+    print("Loading motion module to the animation pipeline...")
     _, unexpected = pipeline.unet.load_state_dict(mm.load_state_dict(), strict=False)
     if len(unexpected) > 0:
-        sys.exit('Failed to load motion module to the animation pipeline!')
+        sys.exit("Failed to load motion module to the animation pipeline!")
 
-    print('Loading diffusion model to the animation pipeline...')
+    print("Loading diffusion model to the animation pipeline...")
     state_dict = dm.load_model()
 
     converted_vae_checkpoint = cvt.convert_ldm_vae_checkpoint(state_dict, pipeline.vae.config)
