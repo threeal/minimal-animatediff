@@ -8,7 +8,7 @@ from transformers import CLIPTextModel, CLIPTokenizer
 from deps.AnimateDiff.animatediff.models.unet import UNet3DConditionModel
 
 
-class Snapshot:
+class StableDiffusionSnapshot:
     def __init__(self, path: str):
         self._path = path
         self._populate()

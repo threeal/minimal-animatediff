@@ -6,12 +6,14 @@ from deps.AnimateDiff.animatediff.pipelines.pipeline_animation import AnimationP
 import deps.AnimateDiff.animatediff.utils.convert_from_ckpt as cvt
 import minimal_animatediff.diffusion_model as dm
 import minimal_animatediff.motion_module as mm
-from minimal_animatediff import utils, stable_diffusion
+
+from . import utils
+from .stable_diffusion import StableDiffusionSnapshot
 
 
 def create_animation_pipeline():
     sd_path = utils.get_model_path('stable_diffusion')
-    sd_snapshot = stable_diffusion.Snapshot(sd_path)
+    sd_snapshot = StableDiffusionSnapshot(sd_path)
 
     pipeline = AnimationPipeline(
         text_encoder=sd_snapshot.load_text_encoder(),
