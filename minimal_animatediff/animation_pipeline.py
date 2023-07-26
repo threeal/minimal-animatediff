@@ -4,9 +4,9 @@ from diffusers import DDIMScheduler
 
 from deps.AnimateDiff.animatediff.pipelines.pipeline_animation import AnimationPipeline
 import deps.AnimateDiff.animatediff.utils.convert_from_ckpt as cvt
-import modules.diffusion_model as dm
-import modules.motion_module as mm
-import modules.stable_diffusion as sd
+import minimal_animatediff.diffusion_model as dm
+import minimal_animatediff.motion_module as mm
+import minimal_animatediff.stable_diffusion as sd
 
 
 def create_animation_pipeline():

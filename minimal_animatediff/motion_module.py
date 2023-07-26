@@ -4,7 +4,7 @@ import sys
 import gdown
 import torch
 
-from modules.utils import get_model_path
+from minimal_animatediff.utils import get_model_path
 
 __state_dict_file = get_model_path('mm_sd_v15.ckpt')
 
