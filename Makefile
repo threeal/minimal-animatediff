@@ -1,5 +1,10 @@
 test:
-	python3 -m pytest --pylint -v -s --durations=0 \
-		--cov=minimal_animatediff --cov-fail-under=85
+	python3 -m pytest  -v -s \
+		--durations=0 \
+		--pylint \
+		--cov=minimal_animatediff \
+		--cov-fail-under=85 \
+		--cov-report term \
+		--cov-report annotate:coverage
 
 .PHONY: test
