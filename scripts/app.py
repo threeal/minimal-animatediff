@@ -2,7 +2,7 @@ import gradio
 import torch
 
 from deps.AnimateDiff.animatediff.utils.util import save_videos_grid
-from modules.animation_pipeline import create_animation_pipeline
+from minimal_animatediff.animation_pipeline import create_animation_pipeline
 
 
 if __name__ == '__main__':
