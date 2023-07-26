@@ -4,77 +4,67 @@ from huggingface_hub import snapshot_download
 from transformers import CLIPTextModel, CLIPTokenizer
 
 from deps.AnimateDiff.animatediff.models.unet import UNet3DConditionModel
-from minimal_animatediff.utils import get_model_path
-
-__SNAPSHOT_DIR = None
 
 
-def check_snapshot():
-    global __SNAPSHOT_DIR
-    print('Checking Stable Diffusion snapshot...')
-    __SNAPSHOT_DIR = get_model_path('stable_diffusion')
-    snapshot_download(
-        repo_id='runwayml/stable-diffusion-v1-5',
-        local_dir=__SNAPSHOT_DIR,
-        allow_patterns=[
-            'text_encoder/*.json',
-            'text_encoder/*model.bin',
-            'tokenizer/*',
-            'unet/*.json',
-            'unet/*model.bin',
-            'vae/*.json',
-            'vae/*model.bin',
-        ]
-    )
+class Snapshot:
+    def __init__(self, path: str):
+        self._path = path
+        self._populate()
 
 
-def load_tokenizer():
-    if __SNAPSHOT_DIR is None:
-        check_snapshot()
-    print('Loading tokenizer pretrained weights...')
-    return CLIPTokenizer.from_pretrained(__SNAPSHOT_DIR, subfolder='tokenizer')
+    def _populate(self):
+        snapshot_download(
+            repo_id='runwayml/stable-diffusion-v1-5',
+            local_dir=self._path,
+            allow_patterns=[
+                'text_encoder/*.json',
+                'text_encoder/*model.bin',
+                'tokenizer/*',
+                'unet/*.json',
+                'unet/*model.bin',
+                'vae/*.json',
+                'vae/*model.bin',
+            ]
+        )
 
 
-def load_text_encoder():
-    if __SNAPSHOT_DIR is None:
-        check_snapshot()
-    print('Loading text encoder pretrained weights...')
-    return CLIPTextModel.from_pretrained(__SNAPSHOT_DIR, subfolder='text_encoder')
+    def load_tokenizer(self):
+        return CLIPTokenizer.from_pretrained(self._path, subfolder='tokenizer')
 
 
-def load_vae():
-    if __SNAPSHOT_DIR is None:
-        check_snapshot()
-    print('Loading vae pretrained weights...')
-    return AutoencoderKL.from_pretrained(__SNAPSHOT_DIR, subfolder='vae')
+    def load_text_encoder(self):
+        return CLIPTextModel.from_pretrained(self._path, subfolder='text_encoder')
 
 
-def load_unet():
-    if __SNAPSHOT_DIR is None:
-        check_snapshot()
-    print('Loading unet pretrained weights...')
-    unet = UNet3DConditionModel.from_pretrained_2d(
-        __SNAPSHOT_DIR,
-        subfolder="unet",
-        unet_additional_kwargs={
-            'unet_use_cross_frame_attention': False,
-            'unet_use_temporal_attention': False,
-            'use_motion_module': True,
-            'motion_module_resolutions': [1, 2, 4, 8],
-            'motion_module_mid_block': False,
-            'motion_module_decoder_only': False,
-            'motion_module_type': "Vanilla",
-            'motion_module_kwargs': {
-                'num_attention_heads': 8,
-                'num_transformer_block': 1,
-                'attention_block_types': ["Temporal_Self", "Temporal_Self" ],
-                'temporal_position_encoding': True,
-                'temporal_position_encoding_max_len': 24,
-                'temporal_attention_dim_div': 1
+    def load_vae(self):
+        return AutoencoderKL.from_pretrained(self._path, subfolder='vae')
+
+
+    def load_unet(self):
+        print('Loading unet pretrained weights...')
+        unet = UNet3DConditionModel.from_pretrained_2d(
+            self._path,
+            subfolder="unet",
+            unet_additional_kwargs={
+                'unet_use_cross_frame_attention': False,
+                'unet_use_temporal_attention': False,
+                'use_motion_module': True,
+                'motion_module_resolutions': [1, 2, 4, 8],
+                'motion_module_mid_block': False,
+                'motion_module_decoder_only': False,
+                'motion_module_type': "Vanilla",
+                'motion_module_kwargs': {
+                    'num_attention_heads': 8,
+                    'num_transformer_block': 1,
+                    'attention_block_types': ["Temporal_Self", "Temporal_Self" ],
+                    'temporal_position_encoding': True,
+                    'temporal_position_encoding_max_len': 24,
+                    'temporal_attention_dim_div': 1
+                }
             }
-        })
-    if is_xformers_available():
-        unet.enable_xformers_memory_efficient_attention()
-    else:
-        print('WARNING: XFormers is not installed. XFormers memory-efficient is disabled.')
-    return unet
+        )
+        if is_xformers_available():
+            unet.enable_xformers_memory_efficient_attention()
+        else:
+            print('WARNING: XFormers is not installed. XFormers memory-efficient is disabled.')
+        return unet
