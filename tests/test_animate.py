@@ -5,7 +5,7 @@ import torch
 from deps.AnimateDiff.animatediff.utils.util import save_videos_grid
 from minimal_animatediff.animation_pipeline import create_animation_pipeline
 
-hasher = FileHash('md5')
+hasher = FileHash("md5")
 
 PIPELINE = None
 SAMPLE = None
@@ -17,29 +17,29 @@ def test_create_animation_pipeline():
     PIPELINE = create_animation_pipeline()
 
 
-@pytest.mark.dependency(depends=['test_create_animation_pipeline'])
+@pytest.mark.dependency(depends=["test_create_animation_pipeline"])
 def test_run_animation_pipeline():
     global SAMPLE
     assert PIPELINE is not None
 
     torch.manual_seed(16372571278361863751)
     SAMPLE = PIPELINE(
-        'best quality, masterpiece, 1girl, cloudy sky, dandelion, alternate hairstyle,',
-        negative_prompt     = '',
-        num_inference_steps = 10,
-        guidance_scale      = 7.5,
-        width               = 512,
-        height              = 512,
-        video_length        = 16,
+        "best quality, masterpiece, 1girl, cloudy sky, dandelion, alternate hairstyle,",
+        negative_prompt="",
+        num_inference_steps=10,
+        guidance_scale=7.5,
+        width=512,
+        height=512,
+        video_length=16,
     ).videos
 
 
-@pytest.mark.dependency(depends=['test_run_animation_pipeline'])
+@pytest.mark.dependency(depends=["test_run_animation_pipeline"])
 def test_save_animation():
     assert SAMPLE is not None
-    save_videos_grid(SAMPLE, 'samples/sample.gif')
+    save_videos_grid(SAMPLE, "samples/sample.gif")
 
 
-@pytest.mark.dependency(depends=['test_save_animation'])
+@pytest.mark.dependency(depends=["test_save_animation"])
 def test_check_saved_animation_hash():
-    assert hasher.hash_file('samples/sample.gif') == '30cc5fb2a6446f0849889b7a84ec1c42'
+    assert hasher.hash_file("samples/sample.gif") == "30cc5fb2a6446f0849889b7a84ec1c42"

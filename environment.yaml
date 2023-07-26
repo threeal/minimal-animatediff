@@ -10,17 +10,17 @@ dependencies:
   - torchvision==0.13.1
   - xformers
   - pip:
+    - black
     - diffusers[torch]==0.11.1
     - einops
     - filehash
+    - flake8
     - gdown
     - huggingface_hub
     - imageio==2.27.0
-    - pylint
     - pytest
     - pytest-cov
     - pytest-dependency
-    - pytest-pylint
     - safetensors
     - transformers==4.25.1
     - triton

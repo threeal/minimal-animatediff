@@ -19,3 +19,6 @@ jobs:
         run: |
           conda activate minimal-animatediff
           make test
+
+      - name: Check diff
+        run: git diff --exit-code HEAD
