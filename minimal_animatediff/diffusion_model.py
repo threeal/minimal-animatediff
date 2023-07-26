@@ -3,7 +3,7 @@ import urllib.request
 
 from safetensors import safe_open
 
-from modules.utils import get_model_path
+from minimal_animatediff.utils import get_model_path
 
 __model_file = get_model_path('toonyou_beta3.safetensors')
 

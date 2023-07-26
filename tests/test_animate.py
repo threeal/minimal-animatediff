@@ -3,7 +3,7 @@ import pytest
 import torch
 
 from deps.AnimateDiff.animatediff.utils.util import save_videos_grid
-from modules.animation_pipeline import create_animation_pipeline
+from minimal_animatediff.animation_pipeline import create_animation_pipeline
 
 hasher = FileHash('md5')
 

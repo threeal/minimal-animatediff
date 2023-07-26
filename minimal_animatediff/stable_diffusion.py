@@ -4,7 +4,7 @@ from huggingface_hub import snapshot_download
 from transformers import CLIPTextModel, CLIPTokenizer
 
 from deps.AnimateDiff.animatediff.models.unet import UNet3DConditionModel
-from modules.utils import get_model_path
+from minimal_animatediff.utils import get_model_path
 
 __SNAPSHOT_DIR = None
 
