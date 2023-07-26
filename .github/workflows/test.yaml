@@ -18,5 +18,4 @@ jobs:
         shell: fish {0}
         run: |
           conda activate minimal-animatediff
-          python3 -m pytest --pylint -v -s --durations=0 \
-            --cov=minimal_animatediff --cov-fail-under=85
+          make test
