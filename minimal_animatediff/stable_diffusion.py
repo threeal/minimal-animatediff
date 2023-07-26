@@ -1,3 +1,5 @@
+import warnings
+
 from diffusers import AutoencoderKL
 from diffusers.utils.import_utils import is_xformers_available
 from huggingface_hub import snapshot_download
@@ -66,5 +68,5 @@ class Snapshot:
         if is_xformers_available():
             unet.enable_xformers_memory_efficient_attention()
         else:
-            print('WARNING: XFormers is not installed. XFormers memory-efficient is disabled.')
+            warnings.warn("XFormers is not installed. memory-efficient is disabled", RuntimeWarning)
         return unet
