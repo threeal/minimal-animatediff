@@ -1,5 +1,9 @@
-lint:
-	flake8 minimal_animatediff scripts tests \
+format:
+	python3 -m black minimal_animatediff scripts tests \
+		--line-length 120
+
+lint: format
+	python3 -m flake8 minimal_animatediff scripts tests \
 		--max-line-length 120
 
 test: lint
@@ -10,4 +14,4 @@ test: lint
 		--cov-report term \
 		--cov-report annotate:coverage
 
-.PHONY: lint test
+.PHONY: format lint test

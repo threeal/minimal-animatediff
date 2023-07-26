@@ -10,6 +10,7 @@ dependencies:
   - torchvision==0.13.1
   - xformers
   - pip:
+    - black
     - diffusers[torch]==0.11.1
     - einops
     - filehash
