@@ -18,6 +18,7 @@ dependencies:
     - imageio==2.27.0
     - pylint
     - pytest
+    - pytest-cov
     - pytest-dependency
     - pytest-pylint
     - safetensors
