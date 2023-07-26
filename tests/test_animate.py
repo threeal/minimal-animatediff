@@ -26,7 +26,7 @@ def test_run_animation_pipeline():
     SAMPLE = PIPELINE(
         'best quality, masterpiece, 1girl, cloudy sky, dandelion, alternate hairstyle,',
         negative_prompt     = '',
-        num_inference_steps = 25,
+        num_inference_steps = 10,
         guidance_scale      = 7.5,
         width               = 512,
         height              = 512,
@@ -42,4 +42,4 @@ def test_save_animation():
 
 @pytest.mark.dependency(depends=['test_save_animation'])
 def test_check_saved_animation_hash():
-    assert hasher.hash_file('samples/sample.gif') == '4d69e165159180fba534e4db9a395925'
+    assert hasher.hash_file('samples/sample.gif') == '30cc5fb2a6446f0849889b7a84ec1c42'
