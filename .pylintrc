@@ -1,5 +1,0 @@
-[MESSAGES CONTROL]
-disable=C0114,C0116,missing-class-docstring,R0913,W0603,no-member
-
-[MASTER]
-ignore=deps
