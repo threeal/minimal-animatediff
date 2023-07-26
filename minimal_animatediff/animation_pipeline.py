@@ -6,16 +6,18 @@ from deps.AnimateDiff.animatediff.pipelines.pipeline_animation import AnimationP
 import deps.AnimateDiff.animatediff.utils.convert_from_ckpt as cvt
 import minimal_animatediff.diffusion_model as dm
 import minimal_animatediff.motion_module as mm
-import minimal_animatediff.stable_diffusion as sd
+from minimal_animatediff import utils, stable_diffusion
 
 
 def create_animation_pipeline():
-    print('Creating animation pipeline...')
+    sd_path = utils.get_model_path('stable_diffusion')
+    sd_snapshot = stable_diffusion.Snapshot(sd_path)
+
     pipeline = AnimationPipeline(
-        text_encoder=sd.load_text_encoder(),
-        tokenizer=sd.load_tokenizer(),
-        vae=sd.load_vae(),
-        unet=sd.load_unet(),
+        text_encoder=sd_snapshot.load_text_encoder(),
+        tokenizer=sd_snapshot.load_tokenizer(),
+        vae=sd_snapshot.load_vae(),
+        unet=sd_snapshot.load_unet(),
         scheduler=DDIMScheduler(**{
             'num_train_timesteps': 1000,
             'beta_start': 0.00085,
