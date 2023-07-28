@@ -4,10 +4,10 @@ from diffusers import DDIMScheduler
 
 from deps.AnimateDiff.animatediff.pipelines.pipeline_animation import AnimationPipeline
 import deps.AnimateDiff.animatediff.utils.convert_from_ckpt as cvt
-import minimal_animatediff.diffusion_model as dm
 import minimal_animatediff.motion_module as mm
 
 from . import utils
+from .dream_booth import DreamBoothModel
 from .stable_diffusion import StableDiffusionSnapshot
 
 
@@ -40,15 +40,16 @@ def create_animation_pipeline():
         sys.exit("Failed to load motion module to the animation pipeline!")
 
     print("Loading diffusion model to the animation pipeline...")
-    state_dict = dm.load_model()
+    db_model_path = utils.get_model_path("toonyou_beta3.safetensors")
+    db_model = DreamBoothModel(db_model_path)
 
-    converted_vae_checkpoint = cvt.convert_ldm_vae_checkpoint(state_dict, pipeline.vae.config)
+    converted_vae_checkpoint = cvt.convert_ldm_vae_checkpoint(db_model.state_dict, pipeline.vae.config)
     pipeline.vae.load_state_dict(converted_vae_checkpoint)
 
-    converted_unet_checkpoint = cvt.convert_ldm_unet_checkpoint(state_dict, pipeline.unet.config)
+    converted_unet_checkpoint = cvt.convert_ldm_unet_checkpoint(db_model.state_dict, pipeline.unet.config)
     pipeline.unet.load_state_dict(converted_unet_checkpoint, strict=False)
 
-    pipeline.text_encoder = cvt.convert_ldm_clip_checkpoint(state_dict)
+    pipeline.text_encoder = cvt.convert_ldm_clip_checkpoint(db_model.state_dict)
 
     pipeline.to("cuda")
 
