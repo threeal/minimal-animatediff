@@ -43,13 +43,13 @@ def create_animation_pipeline():
     db_model_path = utils.get_model_path("toonyou_beta3.safetensors")
     db_model = DreamBoothModel(db_model_path)
 
-    converted_vae_checkpoint = cvt.convert_ldm_vae_checkpoint(db_model.state_dict, pipeline.vae.config)
+    converted_vae_checkpoint = cvt.convert_ldm_vae_checkpoint(db_model.states, pipeline.vae.config)
     pipeline.vae.load_state_dict(converted_vae_checkpoint)
 
-    converted_unet_checkpoint = cvt.convert_ldm_unet_checkpoint(db_model.state_dict, pipeline.unet.config)
+    converted_unet_checkpoint = cvt.convert_ldm_unet_checkpoint(db_model.states, pipeline.unet.config)
     pipeline.unet.load_state_dict(converted_unet_checkpoint, strict=False)
 
-    pipeline.text_encoder = cvt.convert_ldm_clip_checkpoint(db_model.state_dict)
+    pipeline.text_encoder = cvt.convert_ldm_clip_checkpoint(db_model.states)
 
     pipeline.to("cuda")
 
