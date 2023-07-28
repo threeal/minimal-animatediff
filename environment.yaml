@@ -17,7 +17,7 @@ dependencies:
     - flake8
     - gdown
     - huggingface_hub
-    - imageio==2.27.0
+    - imageio[ffmpeg]
     - pytest
     - pytest-cov
     - pytest-dependency
