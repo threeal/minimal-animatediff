@@ -27,10 +27,10 @@ if __name__ == "__main__":
         ).videos
 
         progress(steps / float(steps + 1), desc="Converting")
-        save_videos_grid(sample, "samples/sample.gif")
+        save_videos_grid(sample, "samples/sample.mp4")
 
         progress(1)
-        return "samples/sample.gif"
+        return "samples/sample.mp4"
 
     app = gradio.Interface(
         fn=generate,
@@ -42,7 +42,7 @@ if __name__ == "__main__":
             gradio.Number(label="Height", value=512, minimum=1),
             gradio.Number(label="Frames", value=16, minimum=1),
         ],
-        outputs=gradio.Image(label="Sample"),
+        outputs=gradio.Video(label="Generated Animation"),
     )
 
     app.launch(share=True, enable_queue=True)
