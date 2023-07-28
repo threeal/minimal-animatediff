@@ -35,11 +35,14 @@ def test_run_animation_pipeline():
 
 
 @pytest.mark.dependency(depends=["test_run_animation_pipeline"])
-def test_save_animation():
+def test_save_animation_gif():
     assert SAMPLE is not None
     save_videos_grid(SAMPLE, "samples/sample.gif")
-
-
-@pytest.mark.dependency(depends=["test_save_animation"])
-def test_check_saved_animation_hash():
     assert hasher.hash_file("samples/sample.gif") == "30cc5fb2a6446f0849889b7a84ec1c42"
+
+
+@pytest.mark.dependency(depends=["test_run_animation_pipeline"])
+def test_save_animation_mp4():
+    assert SAMPLE is not None
+    save_videos_grid(SAMPLE, "samples/sample.mp4")
+    assert hasher.hash_file("samples/sample.mp4") == "76494406baff329aa68d9c22ad0436cc"
