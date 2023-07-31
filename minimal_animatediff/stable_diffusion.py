@@ -6,12 +6,12 @@ from transformers import CLIPTextModel, CLIPTokenizer
 from deps.AnimateDiff.animatediff.models.unet import UNet3DConditionModel
 
 
-class StableDiffusionSnapshot:
+class StableDiffusion:
     def __init__(self):
-        path = "snapshots/stable_diffusion"
+        snapshot = "snapshots/stable_diffusion"
         snapshot_download(
             repo_id="runwayml/stable-diffusion-v1-5",
-            local_dir=path,
+            local_dir=snapshot,
             allow_patterns=[
                 "text_encoder/*.json",
                 "text_encoder/*model.bin",
@@ -23,12 +23,12 @@ class StableDiffusionSnapshot:
             ],
         )
 
-        self.text_encoder = CLIPTextModel.from_pretrained(path, subfolder="text_encoder")
-        self.tokenizer = CLIPTokenizer.from_pretrained(path, subfolder="tokenizer")
-        self.vae = AutoencoderKL.from_pretrained(path, subfolder="vae")
+        self.text_encoder = CLIPTextModel.from_pretrained(snapshot, subfolder="text_encoder")
+        self.tokenizer = CLIPTokenizer.from_pretrained(snapshot, subfolder="tokenizer")
+        self.vae = AutoencoderKL.from_pretrained(snapshot, subfolder="vae")
 
         self.unet = UNet3DConditionModel.from_pretrained_2d(
-            path,
+            snapshot,
             subfolder="unet",
             unet_additional_kwargs={
                 "unet_use_cross_frame_attention": False,

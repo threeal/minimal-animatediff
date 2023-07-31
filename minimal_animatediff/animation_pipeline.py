@@ -7,17 +7,17 @@ import deps.AnimateDiff.animatediff.utils.convert_from_ckpt as cvt
 
 from .dream_booth import DreamBoothModel
 from .motion_module import MotionModuleModel
-from .stable_diffusion import StableDiffusionSnapshot
+from .stable_diffusion import StableDiffusion
 
 
 def create_animation_pipeline():
-    sd_snapshot = StableDiffusionSnapshot()
+    sd = StableDiffusion()
 
     pipeline = AnimationPipeline(
-        text_encoder=sd_snapshot.text_encoder,
-        tokenizer=sd_snapshot.tokenizer,
-        vae=sd_snapshot.vae,
-        unet=sd_snapshot.unet,
+        text_encoder=sd.text_encoder,
+        tokenizer=sd.tokenizer,
+        vae=sd.vae,
+        unet=sd.unet,
         scheduler=DDIMScheduler(
             **{
                 "num_train_timesteps": 1000,
