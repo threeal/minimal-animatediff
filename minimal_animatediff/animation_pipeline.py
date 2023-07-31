@@ -6,7 +6,7 @@ from deps.AnimateDiff.animatediff.pipelines.pipeline_animation import AnimationP
 import deps.AnimateDiff.animatediff.utils.convert_from_ckpt as cvt
 
 from .dream_booth import DreamBoothModel
-from .motion_module import MotionModuleModel
+from .motion_module import MotionModule
 from .stable_diffusion import StableDiffusion
 
 
@@ -33,8 +33,8 @@ def create_animation_pipeline():
     pipeline.to("cuda")
 
     print("Loading motion module to the animation pipeline...")
-    mm_model = MotionModuleModel("mm_sd_v15.ckpt")
-    _, unexpected = pipeline.unet.load_state_dict(mm_model.states, strict=False)
+    mm = MotionModule("mm_sd_v15.ckpt")
+    _, unexpected = pipeline.unet.load_state_dict(mm.states, strict=False)
     if len(unexpected) > 0:
         sys.exit("Failed to load motion module to the animation pipeline!")
 

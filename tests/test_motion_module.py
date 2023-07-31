@@ -1,19 +1,19 @@
-from minimal_animatediff.motion_module import MotionModuleModel
+from minimal_animatediff.motion_module import MotionModule
 
 
-def test_init_motion_module_model():
-    model = MotionModuleModel("mm_sd_v15.ckpt")
+def test_init_motion_module():
+    model = MotionModule("mm_sd_v15.ckpt")
     assert len(model.states.keys()) == 560
 
 
-def test_init_other_motion_module_model():
-    model = MotionModuleModel("mm_sd_v14.ckpt")
+def test_init_other_motion_module():
+    model = MotionModule("mm_sd_v14.ckpt")
     assert len(model.states.keys()) == 560
 
 
-def test_init_non_existing_motion_module_model():
+def test_init_non_existing_motion_module():
     try:
-        MotionModuleModel("invalid.ckpt")
+        MotionModule("invalid.ckpt")
         assert False
     except FileNotFoundError:
         pass
