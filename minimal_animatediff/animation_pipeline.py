@@ -4,10 +4,10 @@ from diffusers import DDIMScheduler
 
 from deps.AnimateDiff.animatediff.pipelines.pipeline_animation import AnimationPipeline
 import deps.AnimateDiff.animatediff.utils.convert_from_ckpt as cvt
-import minimal_animatediff.motion_module as mm
 
 from . import utils
 from .dream_booth import DreamBoothModel
+from .motion_module import MotionModuleModel
 from .stable_diffusion import StableDiffusionSnapshot
 
 
@@ -35,7 +35,8 @@ def create_animation_pipeline():
     pipeline.to("cuda")
 
     print("Loading motion module to the animation pipeline...")
-    _, unexpected = pipeline.unet.load_state_dict(mm.load_state_dict(), strict=False)
+    mm_model = MotionModuleModel("mm_sd_v15.ckpt")
+    _, unexpected = pipeline.unet.load_state_dict(mm_model.states, strict=False)
     if len(unexpected) > 0:
         sys.exit("Failed to load motion module to the animation pipeline!")
 
