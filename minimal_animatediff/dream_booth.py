@@ -4,7 +4,7 @@ from .utils import populate_snapshot
 
 class DreamBoothSnapshot:
     def __init__(self, name: str):
-        snapshot = populate_snapshot("DreamBooth/" + name)
+        snapshot = populate_snapshot("dream_booth/" + name)
 
         # Load the model states
         self.states = {}
