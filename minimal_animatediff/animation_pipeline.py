@@ -5,21 +5,19 @@ from diffusers import DDIMScheduler
 from deps.AnimateDiff.animatediff.pipelines.pipeline_animation import AnimationPipeline
 import deps.AnimateDiff.animatediff.utils.convert_from_ckpt as cvt
 
-from . import utils
 from .dream_booth import DreamBoothModel
 from .motion_module import MotionModuleModel
 from .stable_diffusion import StableDiffusionSnapshot
 
 
 def create_animation_pipeline():
-    sd_path = utils.get_model_path("stable_diffusion")
-    sd_snapshot = StableDiffusionSnapshot(sd_path)
+    sd_snapshot = StableDiffusionSnapshot()
 
     pipeline = AnimationPipeline(
-        text_encoder=sd_snapshot.load_text_encoder(),
-        tokenizer=sd_snapshot.load_tokenizer(),
-        vae=sd_snapshot.load_vae(),
-        unet=sd_snapshot.load_unet(),
+        text_encoder=sd_snapshot.text_encoder,
+        tokenizer=sd_snapshot.tokenizer,
+        vae=sd_snapshot.vae,
+        unet=sd_snapshot.unet,
         scheduler=DDIMScheduler(
             **{
                 "num_train_timesteps": 1000,

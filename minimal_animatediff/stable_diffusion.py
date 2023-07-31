@@ -9,14 +9,11 @@ from deps.AnimateDiff.animatediff.models.unet import UNet3DConditionModel
 
 
 class StableDiffusionSnapshot:
-    def __init__(self, path: str):
-        self._path = path
-        self._populate()
-
-    def _populate(self):
+    def __init__(self):
+        path = "snapshots/stable_diffusion"
         snapshot_download(
             repo_id="runwayml/stable-diffusion-v1-5",
-            local_dir=self._path,
+            local_dir=path,
             allow_patterns=[
                 "text_encoder/*.json",
                 "text_encoder/*model.bin",
@@ -28,19 +25,12 @@ class StableDiffusionSnapshot:
             ],
         )
 
-    def load_tokenizer(self):
-        return CLIPTokenizer.from_pretrained(self._path, subfolder="tokenizer")
+        self.text_encoder = CLIPTextModel.from_pretrained(path, subfolder="text_encoder")
+        self.tokenizer = CLIPTokenizer.from_pretrained(path, subfolder="tokenizer")
+        self.vae = AutoencoderKL.from_pretrained(path, subfolder="vae")
 
-    def load_text_encoder(self):
-        return CLIPTextModel.from_pretrained(self._path, subfolder="text_encoder")
-
-    def load_vae(self):
-        return AutoencoderKL.from_pretrained(self._path, subfolder="vae")
-
-    def load_unet(self):
-        print("Loading unet pretrained weights...")
-        unet = UNet3DConditionModel.from_pretrained_2d(
-            self._path,
+        self.unet = UNet3DConditionModel.from_pretrained_2d(
+            path,
             subfolder="unet",
             unet_additional_kwargs={
                 "unet_use_cross_frame_attention": False,
@@ -60,8 +50,8 @@ class StableDiffusionSnapshot:
                 },
             },
         )
+
         if is_xformers_available():
-            unet.enable_xformers_memory_efficient_attention()
+            self.unet.enable_xformers_memory_efficient_attention()
         else:
             warnings.warn("XFormers is not installed. memory-efficient is disabled", RuntimeWarning)
-        return unet
