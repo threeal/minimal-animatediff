@@ -7,7 +7,7 @@ import deps.AnimateDiff.animatediff.utils.convert_from_ckpt as cvt
 import minimal_animatediff.motion_module as mm
 
 from . import utils
-from .dream_booth import DreamBoothSnapshot
+from .dream_booth import DreamBoothModel
 from .stable_diffusion import StableDiffusionSnapshot
 
 
@@ -40,15 +40,15 @@ def create_animation_pipeline():
         sys.exit("Failed to load motion module to the animation pipeline!")
 
     print("Loading diffusion model to the animation pipeline...")
-    db_snapshot = DreamBoothSnapshot("toonyou_beta3.safetensors")
+    db_model = DreamBoothModel("toonyou_beta3.safetensors")
 
-    converted_vae_checkpoint = cvt.convert_ldm_vae_checkpoint(db_snapshot.states, pipeline.vae.config)
+    converted_vae_checkpoint = cvt.convert_ldm_vae_checkpoint(db_model.states, pipeline.vae.config)
     pipeline.vae.load_state_dict(converted_vae_checkpoint)
 
-    converted_unet_checkpoint = cvt.convert_ldm_unet_checkpoint(db_snapshot.states, pipeline.unet.config)
+    converted_unet_checkpoint = cvt.convert_ldm_unet_checkpoint(db_model.states, pipeline.unet.config)
     pipeline.unet.load_state_dict(converted_unet_checkpoint, strict=False)
 
-    pipeline.text_encoder = cvt.convert_ldm_clip_checkpoint(db_snapshot.states)
+    pipeline.text_encoder = cvt.convert_ldm_clip_checkpoint(db_model.states)
 
     pipeline.to("cuda")
 

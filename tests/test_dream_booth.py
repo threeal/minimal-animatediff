@@ -1,6 +1,6 @@
-from minimal_animatediff.dream_booth import DreamBoothSnapshot
+from minimal_animatediff.dream_booth import DreamBoothModel
 
 
-def test_init_dream_booth_snapshot():
-    model = DreamBoothSnapshot("toonyou_beta3.safetensors")
+def test_init_dream_booth_model():
+    model = DreamBoothModel("toonyou_beta3.safetensors")
     assert len(model.states.keys()) == 1133

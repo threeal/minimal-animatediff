@@ -2,7 +2,7 @@ from safetensors import safe_open
 from .utils import populate_snapshot
 
 
-class DreamBoothSnapshot:
+class DreamBoothModel:
     def __init__(self, name: str):
         snapshot = populate_snapshot("dream_booth/" + name)
 
