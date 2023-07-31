@@ -1,5 +1,3 @@
-import warnings
-
 from diffusers import AutoencoderKL
 from diffusers.utils.import_utils import is_xformers_available
 from huggingface_hub import snapshot_download
@@ -51,7 +49,5 @@ class StableDiffusionSnapshot:
             },
         )
 
-        if is_xformers_available():
-            self.unet.enable_xformers_memory_efficient_attention()
-        else:
-            warnings.warn("XFormers is not installed. memory-efficient is disabled", RuntimeWarning)
+        assert is_xformers_available()
+        self.unet.enable_xformers_memory_efficient_attention()
