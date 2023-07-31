@@ -1,5 +1,3 @@
-import warnings
-
 from diffusers import AutoencoderKL
 from diffusers.utils.import_utils import is_xformers_available
 from huggingface_hub import snapshot_download
@@ -8,15 +6,12 @@ from transformers import CLIPTextModel, CLIPTokenizer
 from deps.AnimateDiff.animatediff.models.unet import UNet3DConditionModel
 
 
-class StableDiffusionSnapshot:
-    def __init__(self, path: str):
-        self._path = path
-        self._populate()
-
-    def _populate(self):
+class StableDiffusion:
+    def __init__(self):
+        snapshot = "snapshots/stable_diffusion"
         snapshot_download(
             repo_id="runwayml/stable-diffusion-v1-5",
-            local_dir=self._path,
+            local_dir=snapshot,
             allow_patterns=[
                 "text_encoder/*.json",
                 "text_encoder/*model.bin",
@@ -28,19 +23,12 @@ class StableDiffusionSnapshot:
             ],
         )
 
-    def load_tokenizer(self):
-        return CLIPTokenizer.from_pretrained(self._path, subfolder="tokenizer")
+        self.text_encoder = CLIPTextModel.from_pretrained(snapshot, subfolder="text_encoder")
+        self.tokenizer = CLIPTokenizer.from_pretrained(snapshot, subfolder="tokenizer")
+        self.vae = AutoencoderKL.from_pretrained(snapshot, subfolder="vae")
 
-    def load_text_encoder(self):
-        return CLIPTextModel.from_pretrained(self._path, subfolder="text_encoder")
-
-    def load_vae(self):
-        return AutoencoderKL.from_pretrained(self._path, subfolder="vae")
-
-    def load_unet(self):
-        print("Loading unet pretrained weights...")
-        unet = UNet3DConditionModel.from_pretrained_2d(
-            self._path,
+        self.unet = UNet3DConditionModel.from_pretrained_2d(
+            snapshot,
             subfolder="unet",
             unet_additional_kwargs={
                 "unet_use_cross_frame_attention": False,
@@ -60,8 +48,6 @@ class StableDiffusionSnapshot:
                 },
             },
         )
-        if is_xformers_available():
-            unet.enable_xformers_memory_efficient_attention()
-        else:
-            warnings.warn("XFormers is not installed. memory-efficient is disabled", RuntimeWarning)
-        return unet
+
+        assert is_xformers_available()
+        self.unet.enable_xformers_memory_efficient_attention()
