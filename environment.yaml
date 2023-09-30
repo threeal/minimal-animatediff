@@ -1,0 +1,26 @@
+name: minimal-animatediff
+channels:
+  - pytorch
+  - xformers
+dependencies:
+  - cudatoolkit=11.3
+  - pip
+  - python=3.10
+  - pytorch==1.12.1
+  - torchvision==0.13.1
+  - xformers
+  - pip:
+    - black
+    - diffusers[torch]==0.11.1
+    - einops
+    - filehash
+    - flake8
+    - gdown
+    - huggingface_hub
+    - imageio[ffmpeg]
+    - pytest
+    - pytest-cov
+    - pytest-dependency
+    - safetensors
+    - transformers==4.25.1
+    - triton

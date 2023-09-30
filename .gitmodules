@@ -1,0 +1,3 @@
+[submodule "deps/AnimateDiff"]
+	path = deps/AnimateDiff
+	url = https://github.com/guoyww/AnimateDiff
