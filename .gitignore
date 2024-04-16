@@ -1,2 +1,10 @@
 .*
 !.git*
+!.pylintrc
+
+__pycache__/
+coverage/
+flagged/
+models/
+samples/
+snapshots/
